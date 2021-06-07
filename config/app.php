@@ -175,6 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Tas\Common\CommonServiceProvider::class,
+        Tas\Master\MasterServiceProvider::class,
 
     ],
 

@@ -9,5 +9,4 @@ Route::post("/login", 'AuthController@actionLogin')->name("actionLogin");
 
 Route::middleware("auth")->group(function () {
     Route::get("/", 'AuthController@home')->name("home");
-    Route::get("/home", 'AuthController@home')->name("home");
 });

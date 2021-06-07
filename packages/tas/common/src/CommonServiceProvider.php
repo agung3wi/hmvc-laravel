@@ -4,6 +4,7 @@ namespace Tas\Common;
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Tas\Common\Service\Routing;
 
 class CommonServiceProvider extends ServiceProvider
 {
@@ -34,12 +35,20 @@ class CommonServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadDefault();
+        $this->app->singleton('routing', function () {
+            return new Routing();
+        });
+    }
+
+    private function loadDefault()
+    {
         $this->loadMigrationsFrom(__DIR__ . '/migrations');
         $this->loadViewsFrom(__DIR__ . '/views', 'common');
         $this->loadTranslationsFrom(__DIR__ . '/lang', 'common');
 
         Route::middleware("web")
             ->namespace($this->namespace)
-            ->group(__DIR__ . '/routes.php');
+            ->group(__DIR__ . '/routes/web.php');
     }
 }

@@ -27,6 +27,7 @@
         "psr-4": {
             "App\\": "app/",
             "Tas\\Common\\": "packages/tas/common/src",
+            "Tas\\Master\\": "packages/tas/master/src",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }
