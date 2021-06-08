@@ -82,7 +82,6 @@ export default {
     `,
     async created() {
         this.get();
-        // this.init();
     },
     methods: {
         get() {

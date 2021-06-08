@@ -4,6 +4,7 @@ namespace Tas\Master;
 
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class MasterServiceProvider extends ServiceProvider
@@ -47,13 +48,13 @@ class MasterServiceProvider extends ServiceProvider
                     "path" => "/master/foo",
                     "name" => "Foo",
                     "class" => "nav-icon fas fa-copy",
-                    "component" => "assets/master/js/foo"
+                    "component" => URL::to("assets/master/js/foo.js")
                 ],
                 [
                     "path" => "/master/bar",
                     "name" => "Bar",
                     "class" => "far fa-circle nav-icon",
-                    "component" => "assets/master/js/bar"
+                    "component" => URL::to("assets/master/js/bar.js")
                 ]
             ]
         ]);

@@ -189,29 +189,24 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                        @foreach($menuList as $menu)
-                        <li class="nav-item">
+
+                        <li class="nav-item" v-for="router in routes">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-copy"></i>
                                 <p>
                                     <i class="fas fa-angle-left right"></i>
-                                    <p>{{ $menu["name"] }}</p>
+                                    <p>@{{ router.name }}</p>
                                 </p>
                             </a>
-                            @if(isset($menu["children"]))
-                            <ul class="nav nav-treeview">
-                                @foreach($menu["children"] as $childMenu)
-                                <li class="nav-item">
-                                    <a href="/#{{ $childMenu['path'] }}" class="nav-link">
+                            <ul class="nav nav-treeview" v-if="router.children !== undefined">
+                                <li class="nav-item" v-for="child in router.children">
+                                    <a :href="'/#'+child.path" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>{{$childMenu["name"]}}</p>
+                                        <p>@{{ child.name }}</p>
                                     </a>
                                 </li>
-                                @endforeach
                             </ul>
-                            @endif
                         </li>
-                        @endforeach
                         <li class="nav-item">
                             <a href="{{ route('logout') }}" class="nav-link">
                                 <i class="nav-icon fas fa-lock"></i>
@@ -279,6 +274,8 @@
     <script>
     </script>
     <script type="module">
+        import routes from "/assets/router.js"
+
         const store = new Vuex.Store({
             state: {
                 title: "Content"
@@ -291,32 +288,6 @@
             }
         })
 
-        const routes = [{
-                path: '/',
-                redirect: '/dashboard',
-                name: 'Home'
-            },
-            {
-                path: '/master',
-                name: 'Master',
-                component: {
-                    render(c) {
-                        return c('router-view')
-                    }
-                },
-                children: [{
-                        path: '/master/foo',
-                        name: 'Foo',
-                        component: () => import("/assets/master/js/foo.js")
-                    },
-                    {
-                        path: '/master/bar',
-                        component: () => import("/assets/master/js/bar.js")
-                    }
-                ]
-            }
-        ]
-
         const router = new VueRouter({
             routes
         })
@@ -328,6 +299,9 @@
             computed: {
                 title() {
                     return store.state.title
+                },
+                routes() {
+                    return routes
                 }
             },
             methods: {
