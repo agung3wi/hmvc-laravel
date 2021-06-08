@@ -15,6 +15,7 @@
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/2.1.1/vuex.min.js"></script>
+    <script src="https://unpkg.com/http-vue-loader"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
@@ -271,8 +272,6 @@
     <script src="/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/adminlte/dist/js/adminlte.min.js"></script>
-    <script>
-    </script>
     <script type="module">
         import routes from "/assets/router.js"
 

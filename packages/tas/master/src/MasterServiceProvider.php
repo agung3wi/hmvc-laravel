@@ -48,13 +48,13 @@ class MasterServiceProvider extends ServiceProvider
                     "path" => "/master/foo",
                     "name" => "Foo",
                     "class" => "nav-icon fas fa-copy",
-                    "component" => URL::to("assets/master/js/foo.js")
+                    "component" => URL::to("assets/master/component/foo.vue")
                 ],
                 [
                     "path" => "/master/bar",
                     "name" => "Bar",
                     "class" => "far fa-circle nav-icon",
-                    "component" => URL::to("assets/master/js/bar.js")
+                    "component" => URL::to("assets/master/component/bar.vue")
                 ]
             ]
         ]);
@@ -74,7 +74,7 @@ class MasterServiceProvider extends ServiceProvider
 
         $assetLocalDirJs = __DIR__ . "/assets/js";
         Route::middleware("web")
-            ->prefix("assets/master/js")
+            ->prefix("assets/master/component")
             ->group(function () use ($assetLocalDirJs) {
                 Route::get("/{dir}/{file}", function ($dir, $file) use ($assetLocalDirJs) {
                     $file_path = $assetLocalDirJs . "/" . $dir . "/" . $file;

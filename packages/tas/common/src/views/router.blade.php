@@ -8,7 +8,7 @@ render(c) {
 return c('router-view')
 }
 }, @elseif(isset($menu['component']))
-component: () => import("{!! $menu['component'] !!}"),
+component: httpVueLoader('{!! $menu['component'] !!}'),
 @endif
 @if(isset($menu["children"]))
 children: [
@@ -16,7 +16,7 @@ children: [
 {
 path: '{{ $child["path"] }}',
 name: '{{ $child["name"] }}',
-component: () => import("{!! $child['component'] !!}")
+component: httpVueLoader('{!! $child['component'] !!}')
 },
 @endforeach
 ]

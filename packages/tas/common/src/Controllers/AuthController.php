@@ -20,7 +20,7 @@ class AuthController extends BaseController
     public function logout()
     {
         Auth::logout();
-        return redirect()->intended('home');
+        return redirect()->intended('login');
     }
 
     public function home()
