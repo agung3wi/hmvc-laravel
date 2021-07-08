@@ -331,7 +331,7 @@
             <!-- Main content -->
             <section class="content">
                 <div class="container-fluid" id="content">
-                    @yield('content')
+                    <router-view></router-view>
                 </div><!-- /.container-fluid -->
             </section>
             <!-- /.content -->
