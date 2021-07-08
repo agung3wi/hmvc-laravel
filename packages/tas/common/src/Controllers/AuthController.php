@@ -7,6 +7,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends BaseController
@@ -19,12 +20,13 @@ class AuthController extends BaseController
     public function logout()
     {
         Auth::logout();
-        return redirect()->intended('home');
+        return redirect()->intended('login');
     }
 
     public function home()
     {
-        return view("common::home");
+        $menuList = App::make("routing")->menu;
+        return view("common::home", ["menuList" => $menuList]);
     }
 
     public function actionLogin(Request $request)

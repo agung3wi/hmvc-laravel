@@ -14,10 +14,12 @@
     <link rel="stylesheet" href="/adminlte/dist/css/adminlte.min.css">
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/2.1.1/vuex.min.js"></script>
+    <script src="https://unpkg.com/http-vue-loader"></script>
 </head>
 
 <body class="hold-transition sidebar-mini">
-    <div class="wrapper">
+    <div class="wrapper" id="app">
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light">
             <!-- Left navbar links -->
@@ -188,111 +190,23 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>
-                                    Dashboard
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="/adminlte/index.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v1</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/adminlte/index2.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v2</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="/adminlte/index3.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Dashboard v3</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="../widgets.html" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Widgets
-                                    <span class="right badge badge-danger">New</span>
-                                </p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
+
+                        <li class="nav-item" v-for="router in routes">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-copy"></i>
                                 <p>
-                                    Layout Options
                                     <i class="fas fa-angle-left right"></i>
-                                    <span class="badge badge-info right">6</span>
+                                    <p>@{{ router.name }}</p>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="../layout/top-nav.html" class="nav-link">
+                            <ul class="nav nav-treeview" v-if="router.children !== undefined">
+                                <li class="nav-item" v-for="child in router.children">
+                                    <a :href="'/#'+child.path" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Top Navigation</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="../layout/top-nav-sidebar.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Top Navigation + Sidebar</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="../layout/boxed.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Boxed</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="../layout/fixed-sidebar.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Fixed Sidebar</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="../layout/fixed-sidebar-custom.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Fixed Sidebar <small>+ Custom Area</small></p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="../layout/fixed-topnav.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Fixed Navbar</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="../layout/fixed-footer.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Fixed Footer</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="../layout/collapsed-sidebar.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Collapsed Sidebar</p>
+                                        <p>@{{ child.name }}</p>
                                     </a>
                                 </li>
                             </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="/#/foo" class="nav-link">
-                                <i class="nav-icon fas fa-lock"></i>
-                                <p>
-                                    Foo
-                                </p>
-                            </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('logout') }}" class="nav-link">
@@ -316,7 +230,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Content</h1>
+                            <h1>@{{ title }}</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
@@ -351,54 +265,56 @@
         <!-- /.control-sidebar -->
     </div>
     <!-- ./wrapper -->
-    <script type="module">
-        // 0. If using a module system (e.g. via vue-cli), import Vue and VueRouter
-        // and then call `Vue.use(VueRouter)`.
 
-        // 1. Define route components.
-        // These can be imported from other files
-        import Foo from "/foo.js"
-        const Bar = {
-            template: '<div>bar</div>'
-        }
-
-        // 2. Define some routes
-        // Each route should map to a component. The "component" can
-        // either be an actual component constructor created via
-        // `Vue.extend()`, or just a component options object.
-        // We'll talk about nested routes later.
-        const routes = [{
-                path: '/foo',
-                component: Foo
-            },
-            {
-                path: '/bar',
-                component: Bar
-            }
-        ]
-
-        // 3. Create the router instance and pass the `routes` option
-        // You can pass in additional options here, but let's
-        // keep it simple for now.
-        const router = new VueRouter({
-            routes // short for `routes: routes`
-        })
-
-        // 4. Create and mount the root instance.
-        // Make sure to inject the router with the router option to make the
-        // whole app router-aware.
-        const app = new Vue({
-            router
-        }).$mount('#content')
-
-        // Now the app has started!
-    </script>
     <!-- jQuery -->
     <script src="/adminlte/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <!-- AdminLTE App -->
     <script src="/adminlte/dist/js/adminlte.min.js"></script>
+    <script type="module">
+        import routes from "/assets/router.js"
+
+        const store = new Vuex.Store({
+            state: {
+                title: "Content"
+            },
+            mutations: {
+                setTitle(state, title) {
+                    state.title = title;
+                }
+
+            }
+        })
+
+        const router = new VueRouter({
+            routes
+        })
+
+        new Vue({
+            el: '#app',
+            router,
+            store,
+            computed: {
+                title() {
+                    return store.state.title
+                },
+                routes() {
+                    return routes
+                }
+            },
+            methods: {
+                increment() {
+                    store.commit('increment')
+                },
+                decrement() {
+                    store.commit('decrement')
+                }
+            }
+        })
+
+        // Now the app has started!
+    </script>
 </body>
 
 </html>
